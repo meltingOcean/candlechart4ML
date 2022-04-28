@@ -41,4 +41,4 @@ There are parameters.
 
     candlechart_dir = candlechart_generator(data_csv_path, seq_len=20, tre_len=20, dimension=60, use_volume=False)
 
-![candlechart_sample](./image/candlechart_sample.png)
+![candlechart_sample](images/candlechart_sample.png)
