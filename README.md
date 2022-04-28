@@ -8,6 +8,7 @@ Provide functions for generating candlechart images.
 It is optimized for Machine Learning projects. 
 
 
+
 ---
 ## Environment
 
@@ -25,6 +26,9 @@ And type below code line for import function.
     from candlechart4ML import candlechart_generator
 
 
+## candlechart_generator
+
+Fundametal function to generate candlechart image.
 
 There are parameters.
 
