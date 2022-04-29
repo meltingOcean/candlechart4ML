@@ -1,19 +1,16 @@
 import numpy as np
 import pandas as pd
-
 import matplotlib.dates as mdates
-
-from PIL import Image
 import os
-from pathlib import Path
 import shutil
-
+from pathlib import Path
+from PIL import Image
 
 def removeOutput(filepath):
     if(Path(filepath)).is_file():
         os.remove(filepath)
         
-def candlechart_generator(csv_path, seq_len, tre_len, dimension, use_volume):
+def candlechart_generator(csv_path, seq_len, tre_len, dimension, use_volume=False, gap=0):
     print("Converting ohlc to candlestick")
     
     # 데이터프레임으로 일일주가데이터 불러오기, 결측치 제거
@@ -25,8 +22,8 @@ def candlechart_generator(csv_path, seq_len, tre_len, dimension, use_volume):
     
     # 파일을 저장할 디렉토리 명과 파일이름 지정
     symbol = csv_path.split('\\')[-1][0:-4]
-    filedir = os.getcwd() + '\\dataset\\candle_chart\\{}\\seq{}_dim{}_vol{}\\'.format(
-                                symbol, seq_len, dimension, use_volume) # ex) seq30_dim536_volFalse
+    filedir = os.getcwd() + '\\dataset\\candle_chart\\{}\\seq{}_tseq{}_gap{}_dim{}_vol{}\\'.format(
+                                symbol, seq_len, tre_len, gap, dimension, use_volume)
     
     # 디렉토리가 없을시 생성, 이미 디렉토리가 있다면 내용물 삭제하고 다시 생성
     if not os.path.exists(filedir):
@@ -35,7 +32,7 @@ def candlechart_generator(csv_path, seq_len, tre_len, dimension, use_volume):
         shutil.rmtree(filedir)
         os.makedirs(filedir)
     
-    for i in range(0, len(df)-seq_len-tre_len):
+    for i in range(0, len(df)-seq_len-tre_len-gap):
         pix_data = np.zeros([dimension, dimension, 3], dtype=np.uint8)
         tmp_df = df.iloc[i:i + seq_len]
         seq_upper = np.max([tmp_df['Open'].max(), tmp_df['Close'].max(), tmp_df['High'].max(), tmp_df['Low'].max()]) # 구간 최대 경계값
